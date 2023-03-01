@@ -1,6 +1,6 @@
 const express = require('express');
 const IndexEmbedding = require('./openai/embeddings');
-const TwilioServer = require('./twilio/twilio');
+// const TwilioServer = require('./twilio/twilio');
 const MetaWhatsapp = require('./meta_whatsapp/metaWhtsapp');
 
 const router = express.Router();

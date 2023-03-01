@@ -7,7 +7,7 @@ class MetaWhatsapp{
     static async verifyTokenMeta(req, res, next){
 
         console.log('----verify token--- ')
-        console.log(req?.headers)
+        // console.log(req?.headers)
 
         // res.status(200).send(req.headers.authorization.split(' ')[1])
         res.status(200).send(tokenVerify)

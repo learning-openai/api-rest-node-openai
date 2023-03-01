@@ -17,8 +17,7 @@
     "mathjs": "^11.6.0",
     "mongoose": "^6.10.0",
     "morgan": "^1.10.0",
-    "openai": "^3.1.0",
-    "twilio": "^4.8.0"
+    "openai": "^3.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
