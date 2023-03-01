@@ -1,6 +1,5 @@
 const express = require('express');
 const IndexEmbedding = require('./openai/embeddings');
-const { Twilio } = require('twilio');
 const TwilioServer = require('./twilio/twilio');
 const MetaWhatsapp = require('./meta_whatsapp/metaWhtsapp');
 
@@ -15,7 +14,7 @@ router.get('/embedding/word=:word', IndexEmbedding.searchEmbedding,(req, res)=>{
     res.send('enpoint embedding')
 })
 
-router.get('/twilio', TwilioServer.sendWhatsappMessage);
+// router.get('/twilio', TwilioServer.sendWhatsappMessage);
 
 
 // meta whatsapp 
