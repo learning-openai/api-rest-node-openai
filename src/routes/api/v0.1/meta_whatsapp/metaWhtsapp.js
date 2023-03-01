@@ -17,6 +17,15 @@ class MetaWhatsapp{
         // /metawhatsapp?hub.mode=subscribe&hub.challenge=1108383849&hub.verify_token=tokenVerifyapinode
         res.status(200).send(hudchallenge)
     }
+
+
+    // recive data from meta-wwhatsapp
+    static async receiveMetaWhatsappData(req, res, next){
+
+        console.log('--- post received data meta ---')
+        console.log(req)
+        // res.status(200).send('reciceved data');
+    }
 }
 
 module.exports = MetaWhatsapp;

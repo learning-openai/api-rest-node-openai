@@ -19,9 +19,7 @@ router.get('/embedding/word=:word', IndexEmbedding.searchEmbedding,(req, res)=>{
 
 // meta whatsapp 
 router.get('/metawhatsapp', MetaWhatsapp.verifyTokenMeta)
-
-
-
+router.post('/metawhatsapp', MetaWhatsapp.receiveMetaWhatsappData)
 
 
 

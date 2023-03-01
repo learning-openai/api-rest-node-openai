@@ -1,0 +1,15 @@
+----verify token---
+
+:::son los dato sque viene en el requres 
+
+
+params: {},
+query: {
+'hub.mode': 'subscribe',
+'hub.challenge': '343161086',
+'hub.verify_token': 'tokenVerifyapinode'
+},
+
+
+---forma de extraer:
+const hudchallenge = req?.query['hub.challenge']
