@@ -19,7 +19,7 @@ class IndexMetaWhatasapp{
 
 
            
-        res.status(200).send({status:"success"})
+        // res.status(200).send({status:"success"})
     }
 }
 

@@ -23,7 +23,7 @@ class MetaWhatsapp{
 
 
     // receive data from meta-wwhatsapp
-    static async receiveMetaWhatsappData(req){
+    static async receiveMetaWhatsappData(req, res, next){
 
         console.log('--- post received data meta ---')
         // console.log(req)
