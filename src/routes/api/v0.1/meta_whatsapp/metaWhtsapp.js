@@ -7,9 +7,12 @@ class MetaWhatsapp{
     static async verifyTokenMeta(req, res, next){
 
         console.log('----verify token--- ')
-        // console.log(req?.headers)
+        console.log(req)
+        console.log(req?.headers)
+
 
         // res.status(200).send(req.headers.authorization.split(' ')[1])
+        // /metawhatsapp?hub.mode=subscribe&hub.challenge=1108383849&hub.verify_token=tokenVerifyapinode
         res.status(200).send(tokenVerify)
     }
 }
