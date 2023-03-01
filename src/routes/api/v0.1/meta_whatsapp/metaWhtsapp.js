@@ -10,10 +10,12 @@ class MetaWhatsapp{
         console.log(req)
         console.log(req?.headers)
 
-
+        console.log('----hub-challenge---')
+        const hudchallenge = req?.query['hub.challenge']
+        console.log(hudchallenge)
         // res.status(200).send(req.headers.authorization.split(' ')[1])
         // /metawhatsapp?hub.mode=subscribe&hub.challenge=1108383849&hub.verify_token=tokenVerifyapinode
-        res.status(200).send(tokenVerify)
+        res.status(200).send(hudchallenge)
     }
 }
 
