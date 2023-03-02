@@ -36,14 +36,16 @@ class MetaWhatsapp{
         const data = req?.body;
         if(data===null || data === undefined )return null
         console.log(data)
-        console.log(data.entry[0].changes)
-        console.log(data.entry[0].changes[0].value.metadata)
-        console.log(data.entry[0].changes[0].value.statuses)
-        console.log(data.entry[0].changes[0].value.statuses[0].conversation)
-        console.log(data.entry[0].changes[0].value.statuses[0].conversation.origin)
+        console.log(data.entry[0]?.changes)
+        console.log(data.entry[0]?.changes[0]?.value?.metadata)
+        console.log(data.entry[0]?.changes[0]?.value?.statuses)
+        console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation)
+        console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation.origin)
 
         console.log(JSON.stringify(data));
-        console.log(JSON.stringify(req))
+        console.log(JSON.stringify(req.body))
+        console.log(JSON.stringify(req.query))
+        console.log(JSON.stringify(req.params))
 
         const whatsappNumberClient = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
         const message = data["entry"][0]["changes"][0]["value"]["messages"][0]["text"]["body"]
@@ -72,8 +74,9 @@ class MetaWhatsapp{
         console.log('--  Error meta receive message whatsapp --');
         console.log(e)
 
-        const resp = await StandardResponse.errorResp('Error meta-receive data message whatsapp');
-        return resp;
+        // const resp = await StandardResponse.errorResp('Error meta-receive data message whatsapp');
+        // return resp;
+        res.status(200).json('EVENT_RECEIVED')
       }
 
   }
