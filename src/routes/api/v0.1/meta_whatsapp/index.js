@@ -8,6 +8,7 @@ class IndexMetaWhatasapp{
        const messageData = await  MetaWhatsapp.receiveMetaWhatsappData(req,res,next);
        if(messageData.error='error'){
          console.log('Error decode data meta-whatsapp-message')
+         return null
        }
        const messageClient = messageData.message;
        console.log(' --message client --')
