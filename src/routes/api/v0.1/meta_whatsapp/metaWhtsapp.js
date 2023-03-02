@@ -42,9 +42,13 @@ class MetaWhatsapp{
         // console.log(data?.entry[0]?.changes[0]?.value?.statuses[0]?.conversation?.origin)
 
         console.log(JSON.stringify(data));
-        console.log(JSON.stringify(req.body))
-        console.log(JSON.stringify(req.query))
-        console.log(JSON.stringify(req.params))
+
+        const existMessage = data?.entry[0]?.changes[0]?.value?.messages;
+        if(existMessage === undefined || existMessage === null){
+          console.log('-- Received data from meta-whatsapp api - sin message --');
+          console.log(JSON.stringify(data))
+          res.status(200).send({status:'success'});
+        }
 
         const whatsappNumberClient = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
         const message = data["entry"][0]["changes"][0]["value"]["messages"][0]["text"]["body"]
@@ -66,8 +70,8 @@ class MetaWhatsapp{
         }
 
         // return messageData;
-        res.status(200).send({status:"success"})
         // res.status(200).send('EVENT_RECEIVED')
+        res.status(200).send({status:"success"})
 
       } catch (e) {
         console.log('--  Error meta receive message whatsapp --');
