@@ -63,8 +63,9 @@ class MetaWhatsapp{
           timestamp
         }
 
-        return messageData;
+        // return messageData;
         // res.status(200).send({status:"success"})
+        res.status(200).json('EVENT_RECEIVED')
 
       } catch (e) {
         console.log('--  Error meta receive message whatsapp --');
