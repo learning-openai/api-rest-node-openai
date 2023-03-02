@@ -4,10 +4,12 @@ const tokenVerify = "tokenVerifyapinode"
 
 // import axios
 const axios = require('axios');
+const StandardResponse = require('../utils/standardResponse/standardResponse');
 
 
 class MetaWhatsapp{
-    static async verifyTokenMeta(req, res, next){
+    
+  static async verifyTokenMeta(req, res, next){
 
         console.log('----verify token--- ')
         console.log(req)
@@ -19,17 +21,18 @@ class MetaWhatsapp{
         // res.status(200).send(req.headers.authorization.split(' ')[1])
         // /metawhatsapp?hub.mode=subscribe&hub.challenge=1108383849&hub.verify_token=tokenVerifyapinode
         res.status(200).send(hudchallenge)
-    }
+  }
 
 
-    // receive data from meta-wwhatsapp
-    static async receiveMetaWhatsappData(req, res, next){
+  // receive data from meta-wwhatsapp
+  static async receiveMetaWhatsappData(req, res, next){
 
-        console.log('--- post received data meta ---')
-        // console.log(req)
-        // -los datos vieneen en el body --> req.body
-        // body: { object: 'whatsapp_business_account', entry: [ [Object] ] },...
-        
+      console.log('--- post received data meta ---')
+      // console.log(req)
+      // -los datos vieneen en el body --> req.body
+      // body: { object: 'whatsapp_business_account', entry: [ [Object] ] },...
+      try {
+                
         const data = req?.body;
         // console.log(data)
 
@@ -53,10 +56,17 @@ class MetaWhatsapp{
         }
 
         return messageData;
-        // next()
         // res.status(200).send({status:"success"})
 
-    }
+      } catch (e) {
+        console.log('--  Error meta receive message whatsapp --');
+        console.log(e)
+
+        const resp = await StandardResponse.errorResp('Error meta-receive data message whatsapp');
+        return resp;
+      }
+
+  }
 
     static async sentMessageWatsappCloudApi(message ='Message text example', whatsappNumber='59169651053'){
 
