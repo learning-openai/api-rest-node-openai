@@ -41,7 +41,7 @@ class Embeddings{
         const openai = new OpenAIApi(configuration);
         const response = await openai.createCompletion({
             model: "text-davinci-003",
-            prompt: `genear un respuesta de venta en base la siguiente :${userQuestion}: con los siguientes datos: nombre prducto "${name}", precion en Bs:${precio} , marca:${marca}, talla:${talla}`,
+            prompt: `genear un respuesta corta utilizando neuroventas en base la siguiente :${userQuestion}: con los siguientes datos: nombre prducto "${name}", precion en Bs:${precio} , marca:${marca}, talla:${talla}`,
             max_tokens: 250,
             temperature: 0,
         })

@@ -125,6 +125,7 @@ class MetaWhatsapp{
        } catch (e) {
         console.log('error send message whatsapp cloud api');
         console.log(e)
+        // console.log(e.headers)
        }
         
     }
@@ -136,6 +137,10 @@ const Embeddings = require('../openai/embeddings/embedding')
 async function responseUserWhatsappApi(dataMessage){
   const whatsappMessage = dataMessage.message
   const respEmbedding = await Embeddings.seachEmbeddingData(whatsappMessage,DATA_PRODUCTS);
+  if(respEmbedding.length==0){
+    console.log('No hay coincidencia con la lista de embeddings')
+    return null;
+  }
   const dataCompletation = await Embeddings.createCompletation(respEmbedding[0]);
   console.log(dataCompletation[0].text)
   const onlyText = dataCompletation[0].text
