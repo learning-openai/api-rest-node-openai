@@ -68,7 +68,7 @@ class MetaWhatsapp{
 
         // return messageData;
         // res.status(200).send({status:"success"})
-        res.status(200).json('EVENT_RECEIVED')
+        res.status(200).send('EVENT_RECEIVED')
 
       } catch (e) {
         console.log('--  Error meta receive message whatsapp --');
@@ -76,7 +76,7 @@ class MetaWhatsapp{
 
         // const resp = await StandardResponse.errorResp('Error meta-receive data message whatsapp');
         // return resp;
-        res.status(200).json('EVENT_RECEIVED')
+        res.status(200).send('EVENT_RECEIVED')
       }
 
   }
