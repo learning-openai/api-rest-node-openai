@@ -23,7 +23,8 @@ class IndexMetaWhatasapp{
  
  
             
-         res.status(200).json({status: 'success'})
+        //  res.status(200).json({status: 'success'})
+         res.status(200).json('EVENT_RECEIVED')
       } catch (e) {
         console.log('Error')
         console.log(e)
