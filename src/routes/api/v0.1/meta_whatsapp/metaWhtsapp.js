@@ -34,12 +34,12 @@ class MetaWhatsapp{
       try {
                 
         const data = req?.body;
-        console.log(data)
-        console.log(data.entry[0]?.changes)
-        console.log(data.entry[0]?.changes[0]?.value?.metadata)
-        console.log(data.entry[0]?.changes[0]?.value?.statuses)
-        console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation)
-        console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation?.origin)
+        // console.log(data)
+        // console.log(data?.entry[0]?.changes)
+        // console.log(data?.entry[0]?.changes[0]?.value?.metadata)
+        // console.log(data?.entry[0]?.changes[0]?.value?.statuses)
+        // console.log(data?.entry[0]?.changes[0]?.value?.statuses[0]?.conversation)
+        // console.log(data?.entry[0]?.changes[0]?.value?.statuses[0]?.conversation?.origin)
 
         console.log(JSON.stringify(data));
         console.log(JSON.stringify(req.body))
