@@ -34,13 +34,12 @@ class MetaWhatsapp{
       try {
                 
         const data = req?.body;
-        if(data===null || data === undefined )return null
         console.log(data)
         console.log(data.entry[0]?.changes)
         console.log(data.entry[0]?.changes[0]?.value?.metadata)
         console.log(data.entry[0]?.changes[0]?.value?.statuses)
         console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation)
-        console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation.origin)
+        console.log(data.entry[0]?.changes[0]?.value?.statuses[0]?.conversation?.origin)
 
         console.log(JSON.stringify(data));
         console.log(JSON.stringify(req.body))
@@ -67,8 +66,8 @@ class MetaWhatsapp{
         }
 
         // return messageData;
-        // res.status(200).send({status:"success"})
-        res.status(200).send('EVENT_RECEIVED')
+        res.status(200).send({status:"success"})
+        // res.status(200).send('EVENT_RECEIVED')
 
       } catch (e) {
         console.log('--  Error meta receive message whatsapp --');
@@ -76,7 +75,7 @@ class MetaWhatsapp{
 
         // const resp = await StandardResponse.errorResp('Error meta-receive data message whatsapp');
         // return resp;
-        res.status(200).send('EVENT_RECEIVED')
+        // res.status(200).send('EVENT_RECEIVED')
       }
 
   }
