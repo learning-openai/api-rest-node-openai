@@ -42,6 +42,8 @@ class MetaWhatsapp{
         console.log(data.entry[0].changes[0].value.statuses[0].conversation)
         console.log(data.entry[0].changes[0].value.statuses[0].conversation.origin)
 
+        console.log(JSON.stringify(data));
+
         const whatsappNumberClient = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
         const message = data["entry"][0]["changes"][0]["value"]["messages"][0]["text"]["body"]
         const idWAMessage = data["entry"][0]["changes"][0]["value"]["messages"][0]["id"]
