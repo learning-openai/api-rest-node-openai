@@ -35,7 +35,7 @@ class MetaWhatsapp{
                 
         const data = req?.body;
         if(data===null || data === undefined )return null
-        // console.log(data)
+        console.log(data)
 
         const whatsappNumberClient = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
         const message = data["entry"][0]["changes"][0]["value"]["messages"][0]["text"]["body"]
