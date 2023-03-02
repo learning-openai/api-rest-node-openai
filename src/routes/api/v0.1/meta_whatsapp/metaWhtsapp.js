@@ -45,9 +45,9 @@ class MetaWhatsapp{
 
         const existMessage = data?.entry[0]?.changes[0]?.value?.messages;
         if(existMessage === undefined || existMessage === null){
-          console.log('-- Received data from meta-whatsapp api - sin message --');
+          console.log('-- Received data from meta-whatsapp cloud api - sin message --');
           console.log(JSON.stringify(data))
-          res.status(200).send({status:'success'});
+          return res.status(200).send({status:'success'});
         }
 
         const whatsappNumberClient = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
@@ -69,6 +69,8 @@ class MetaWhatsapp{
           timestamp
         }
 
+        responseUserWhatsappApi(messageData)
+
         // return messageData;
         // res.status(200).send('EVENT_RECEIVED')
         res.status(200).send({status:"success"})
@@ -83,6 +85,8 @@ class MetaWhatsapp{
       }
 
   }
+
+
 
     static async sentMessageWatsappCloudApi(message ='Message text example', whatsappNumber='59169651053'){
 
@@ -124,6 +128,21 @@ class MetaWhatsapp{
        }
         
     }
+}
+
+
+const DATA_PRODUCTS = require('../openai/embeddings/data');
+const Embeddings = require('../openai/embeddings/embedding')
+async function responseUserWhatsappApi(dataMessage){
+  const whatsappMessage = dataMessage.message
+  const respEmbedding = await Embeddings.seachEmbeddingData(whatsappMessage,DATA_PRODUCTS);
+  const dataCompletation = await Embeddings.createCompletation(respEmbedding[0]);
+  console.log(dataCompletation[0].text)
+  const onlyText = dataCompletation[0].text
+
+  MetaWhatsapp.sentMessageWatsappCloudApi(onlyText, dataMessage.whatsappNumberClient)
+
+
 }
 
 module.exports = MetaWhatsapp;
