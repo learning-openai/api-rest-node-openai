@@ -10,7 +10,7 @@ class IndexEmbedding{
 
     static async generaEmbedding(req, res){
 
-        const textExample = 'pantalores'
+        const textExample = req.params?.text ? req.params?.text : 'Botas de cuero'
         const resultEmbedding = await  Embeddings.createEmbedding(textExample);
 
         res.status(200).send({embedding:resultEmbedding});

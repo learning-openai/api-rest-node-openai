@@ -10,6 +10,9 @@ router.get('/',(req, res)=>{
     res.send({message:'Server run succesfull'});
 })
 
+// generate un embedding en base a un texto 
+router.get('/enerateEmbedding/text=:text', IndexEmbedding.generaEmbedding)
+
 router.get('/embedding/word=:word', IndexEmbedding.searchEmbedding,(req, res)=>{
     console.log('endpoint embedding')
     res.send('enpoint embedding')
