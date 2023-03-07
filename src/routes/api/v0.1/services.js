@@ -4,6 +4,8 @@ const IndexEmbedding = require('./openai/embeddings');
 const MetaWhatsapp = require('./meta_whatsapp/metaWhtsapp');
 const IndexMetaWhatasapp = require('./meta_whatsapp');
 
+const WhatsappWebClient = require('./whatsappWebNode/index')
+
 const router = express.Router();
 
 router.get('/',(req, res)=>{
@@ -29,7 +31,8 @@ router.post('/metawhatsapp', MetaWhatsapp.receiveMetaWhatsappData); // recibe lo
 // router.get('/sendmessage',IndexMetaWhatasapp.receiveMessageAndResponse)
 
 
-
+// whatsap-webjs client
+router.get('/qr-code', WhatsappWebClient.initWhatssapWeb)
 
 
 
