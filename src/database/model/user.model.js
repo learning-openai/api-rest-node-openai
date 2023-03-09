@@ -11,8 +11,8 @@ const User = new Schema({
     specialty:String,
     phone:String,
     age:Number,
-    dateCreatedAcount : { type : Date, default : Date.now },
-    updateDateAcount : { type : Date, default : Date.now }
+    createdAt:{type:Date, default:Date.now},
+    lastUpdate:{type:Date, default:Date.now}
 
 })
 

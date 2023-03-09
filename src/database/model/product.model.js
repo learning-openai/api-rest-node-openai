@@ -12,6 +12,8 @@ const Product = new Schema({
     category:String,
     description:String,
     embedding:[],
+    createdAt:{type:Date, default:Date.now},
+    lastUpdate:{type:Date, default:Date.now}
 })
 
 

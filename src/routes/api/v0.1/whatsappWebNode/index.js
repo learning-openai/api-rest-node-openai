@@ -33,13 +33,16 @@ class WhatsappWebClient{
             console.log('Client is ready!');
         });
 
+
         client.on('message', message=>{
             console.log(message.body)
             console.log(message?.from)
             console.log(message?.to)
-
-            const response = 'Hello fromserver apa-rest';
-            client.sendMessage(message?.from,response)
+            
+            if(message?.body ==='hello'){
+                const response = 'this meesage for test - services wsp web: ulr for test: https://www.google.com';
+                client.sendMessage(message?.from,response)
+            }
             
         })
         
