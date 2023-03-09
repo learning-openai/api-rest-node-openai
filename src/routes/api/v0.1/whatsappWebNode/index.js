@@ -37,10 +37,19 @@ class WhatsappWebClient{
             console.log(message.body)
             console.log(message?.from)
             console.log(message?.to)
+
+            const response = 'Hello fromserver apa-rest';
+            client.sendMessage(message?.from,response)
+            
         })
         
+
+
+
         client.initialize();
     }
 }
+
+
 
 module.exports = WhatsappWebClient
