@@ -50,6 +50,49 @@ class Embeddings{
         return response.data.choices
     }
 
+
+    // create completation for services
+    static async createCompletationService(objectMessagesServices){
+        const {    
+        title,
+        similarity,
+        precio,
+        userQuestion,
+        description,
+        urlResource,
+        location } = objectMessagesServices
+
+
+        var prompt = `Imagina que eres una asistente de una clínica dental y debes generar una respuesta en base a la siguiente pregunta: "${userQuestion}". 
+        Utiliza solo los datos que sean necesarios en la pregunta. 
+        Datos: servicio "${title}". precio ${precio>0?precio:''} Bs. descripcion "${description}". direccion "${location}".`;
+
+        // if (precio && userQuestion.toLowerCase().includes('precio')) {
+        //     prompt += ` El precio es ${precio} Bs.`;
+        // }
+
+        // if (description && userQuestion.toLowerCase().includes('descripcion')) {
+        //     prompt += ` ${description}`;
+        // }
+
+        // if (location && (userQuestion.toLowerCase().includes('ubicacion') || userQuestion.toLowerCase().includes('localizacion'))) {
+        //     prompt += ` Estamos ubicados en ${location}.`;
+        // }
+
+
+        const openai = new OpenAIApi(configuration);
+        const response = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt,
+            max_tokens: 125,
+            temperature: 0.0,
+        })
+
+        console.log(response.data.choices)
+        return response.data.choices
+    }
+
+    // search embedding for products
     static async seachEmbeddingData(stringText, listEmbeddings){
         
         const embeddingText = await this.createEmbedding(stringText);
@@ -77,6 +120,56 @@ class Embeddings{
             }
             // [1,2,3] [2,1,3] 
             
+            for(var j=0;j<listSimilaties.length;j++){
+                console.log('this a for')
+                let i=j;
+                while(listSimilaties[i]?.similarity<listSimilaties[i+1]?.similarity && i>=0){
+                    console.log('this in while')
+                    var aux=listSimilaties[i];
+                    listSimilaties[i]=listSimilaties[i+1]
+                    listSimilaties[i+1]=aux;
+                    console.table(listSimilaties[i])
+                    i--;
+                }
+            }
+            console.log(listSimilaties)
+            // return embeddingTet;
+        }
+
+
+        return listSimilaties;
+
+    }
+
+
+    // search embedding for services
+     static async SearchEmbeddingServices( messageClient, listEmbeddings ){
+        
+        const embeddingText = await this.createEmbedding(messageClient);
+        console.log('search embedding');
+        console.log(embeddingText);
+        
+        const listSimilaties=[];
+        for ( var i=0; i < listEmbeddings.length; i++ ) {
+
+            let dotProduct = await math.dot( embeddingText, listEmbeddings[i].embeddingTitle );
+            // let norm1 = math.norm(embeddingTet) 
+            // let norm2 = math.norm(listEmbeddings[i].embedding) 
+            // let similarity = dotProduct/(norm1*norm2)
+            console.log(dotProduct)
+            if(dotProduct>0.80){
+                console.log(listEmbeddings[i]?.title);
+                listSimilaties.push({
+                    title:listEmbeddings[i]?.title,
+                    similarity:dotProduct,
+                    precio:listEmbeddings[i]?.price,
+                    userQuestion: messageClient,
+                    description: listEmbeddings[i]?.description,
+                    urlResource: listEmbeddings[i]?.urlResource,
+                    location: listEmbeddings[i]?.location,
+                })
+            }
+
             for(var j=0;j<listSimilaties.length;j++){
                 console.log('this a for')
                 let i=j;

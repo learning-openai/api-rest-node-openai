@@ -8,8 +8,8 @@ class ApiStantarResponse{
 
         // this.fecha.toISOString()
         const responseJ = {
-            code: code,
-            date:this.fecha.toLocaleString(),
+            status: code,
+            timestamp:this.fecha.toISOString(),
             message: message,
             data:data
         }

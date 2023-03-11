@@ -4,7 +4,10 @@ const IndexEmbedding = require('./openai/embeddings');
 const MetaWhatsapp = require('./meta_whatsapp/metaWhtsapp');
 const IndexMetaWhatasapp = require('./meta_whatsapp');
 
-const WhatsappWebClient = require('./whatsappWebNode/index')
+const WhatsappWebClient = require('./whatsappWebNode/index');
+const UserController = require('./businessLogic/user');
+const ServiceController = require('./businessLogic/service/service.controller');
+const MessageEmbedding = require('./businessLogic/messageEmbedding/messageEmbedding.controller');
 
 const router = express.Router();
 
@@ -34,6 +37,20 @@ router.post('/metawhatsapp', MetaWhatsapp.receiveMetaWhatsappData); // recibe lo
 // whatsap-webjs client
 router.get('/qr-code', WhatsappWebClient.initWhatssapWeb)
 
+
+// User
+router.post('/user', UserController.signUp);
+router.get('/user/singin', UserController.signIn);
+router.put('/user/update', UserController.update)
+
+
+// services offered by the user
+router.post('/service',ServiceController.create);
+
+
+// message embedding
+router.post('/messageembedding/create',MessageEmbedding.createMessageEmebedding)
+router.get('/messageembedding/list', MessageEmbedding.getListMsEmebeddings)
 
 
 module.exports = router

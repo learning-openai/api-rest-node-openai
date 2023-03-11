@@ -9,8 +9,10 @@ const User = new Schema({
     email: String,
     password: String,
     specialty:String,
-    phone:String,
     age:Number,
+    phoneNumber:String,
+    areaCode:String,
+    slugPhoneNumber:String,
     createdAt:{type:Date, default:Date.now},
     lastUpdate:{type:Date, default:Date.now}
 
