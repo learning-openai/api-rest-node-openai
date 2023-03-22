@@ -114,6 +114,82 @@ class MessageEmbedding{
         }
     }
 
+
+    // update services
+
+    static async updateMsEmbedding(req, res, next){
+
+                const { idService, idMessageinEmb, title, description, price, urlResource, location, state }  = req.body;
+    
+                const verifyCampos =  await Verify.verificacionCamposRequeridos([ idService, idMessageinEmb, title, description, price, state ]);
+                if(!verifyCampos){
+                    var response = await ApiStantarResponse.jsonResponse(1, 'Error de validación: Complete los campos requeridos',[]);
+                    return res.status(400).send(response);
+                }
+
+                const verifyExistIdServ = await service.findById({_id:idService});
+                if(!verifyExistIdServ){
+                    console.log('-- El id del servicio no existe --');
+                    console.log(`idService : ${verifyExistIdServ}`)
+                    var response = await ApiStantarResponse.jsonResponse(1,`Error de validacion, el id servicio ${idService} no existe`, [])
+                   return res.status(400).send(response)
+                }
+
+                if(verifyExistIdServ?.state === false){
+                    console.log('-- El servicios esta inactivo --');
+                    console.log(`idService : ${verifyExistIdServ}`)
+                    var response = await ApiStantarResponse.jsonResponse(1,`Error inactivo, el estado del servicio esta inactivo`, [verifyExistIdServ])
+                   return res.status(400).send(response)
+                }
+
+                const listMessageEmbedding = await  messageEmbeddingModel.messageEmbedding.find({idService});
+                console.log(listMessageEmbedding);
+    
+                const limitMessagesE = 30;
+                if(listMessageEmbedding.length >= limitMessagesE){
+                    console.log('-- lleggo al limite de mensajes--')
+                    console.log(listMessageEmbedding)
+                    var response = await ApiStantarResponse.jsonResponse(1,`Limite de mensajes, ya llego al limite de ${limitMessagesE} mensajes de respestas automatizadas`, [...listMessageEmbedding])
+                   return res.status(400).send(response)
+                }
+                
+
+                const messageEmbeddindData = await messageEmbeddingModel.messageEmbedding.findById({_id:idMessageinEmb});
+                if(!messageEmbeddindData){
+                    console.log('-- Error, El messageEmbeding no esxites para actualizar los datos --')
+                    // console.log(listMessageEmbedding)
+                    var response = await ApiStantarResponse.jsonResponse(1,` Error, El messageEmbeding no esxites para actualizar los datoso`, [...listMessageEmbedding])
+                    return res.status(400).send(response)
+                }
+
+    
+                var  titleEmbedding;
+                if(messageEmbeddindData.title != title){
+                    titleEmbedding = await  Embeddings.createEmbedding(title);
+                }else{
+                    titleEmbedding=messageEmbeddindData.embeddingTitle
+                }
+        
+                var updateMessageEmbedding = {
+                    title: title,
+                    description: description,
+                    price: price,
+                    urlResource: urlResource,
+                    location: location,
+                    state: state,
+                    embeddingTitle:titleEmbedding
+                };
+        
+                var response = await messageEmbeddingModel.messageEmbedding.findByIdAndUpdate({_id:messageEmbeddindData._id},updateMessageEmbedding);
+
+
+                console.log('--- Update message embedding, ok----')
+                var dataEmbedding = await  messageEmbeddingModel.messageEmbedding.findById({_id:response._id})
+
+                var resJson = await ApiStantarResponse.jsonResponse(0,'Registro realizado exitosamente,',[dataEmbedding])
+                return res.status(200).send(resJson);
+    }
+
     
 }
 

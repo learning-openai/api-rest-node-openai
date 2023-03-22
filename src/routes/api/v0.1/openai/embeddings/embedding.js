@@ -64,8 +64,8 @@ class Embeddings{
 
 
         var prompt = `Imagina que eres una asistente de una clínica dental y debes generar una respuesta en base a la siguiente pregunta: "${userQuestion}". 
-        Utiliza solo los datos que sean necesarios en la pregunta. 
-        Datos: servicio "${title}". precio ${precio>0?precio:''} Bs. descripcion "${description}". direccion "${location}".`;
+        Utiliza solo los datos que sean necesarios para responder la pregunta. 
+        Datos: servicio "${title}".  ${precio>0?"precio"+' ' +precio +' '+'Bs.':''}  descripcion "${description}". "${location!=''?'direccion'+' '+ location:''}".`;
 
         // if (precio && userQuestion.toLowerCase().includes('precio')) {
         //     prompt += ` El precio es ${precio} Bs.`;
@@ -85,7 +85,8 @@ class Embeddings{
             model: "text-davinci-003",
             prompt,
             max_tokens: 125,
-            temperature: 0.0,
+            temperature: 0.1,
+
         })
 
         console.log(response.data.choices)

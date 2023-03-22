@@ -4,6 +4,7 @@ const  { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const ResponseMessage = require('./responseMessageClient/responseMessageCliente');
 const Embeddings = require('../openai/embeddings/embedding');
+const ApiStantarResponse = require('../utils/standardResponse/standardApiResponse');
 
 class WhatsappWebClient{
 
@@ -11,19 +12,23 @@ class WhatsappWebClient{
         
         const client = new Client();
 
-        client.once('qr', (qr) => {
+        client.once('qr',async (qr) => {
             var counter = 0;
             console.log('QR RECEIVED', qr);
 
-            qrcode.toDataURL(qr, (err, url) => {
+            qrcode.toDataURL(qr, async (err, url) => {
                 if (err) {
                   console.log('Error generating QR code');
-                  return;
+                  let  response = await ApiStantarResponse.jsonResponse(1,'Error al generar QR',[err]);
+                  return res.status(400).send(response);
+                 
                 }
 
                 // console.log(url)
                 if(counter==0){
-                    res.status(200).send(`<img src="${url}" />`);
+                    // res.status(200).send(`<img src="${url}" />`);
+                    let  response = await ApiStantarResponse.jsonResponse(0,'Codigo QR generado exitosamente',[url]);
+                    res.status(200).send(response);
                 }
               });
 

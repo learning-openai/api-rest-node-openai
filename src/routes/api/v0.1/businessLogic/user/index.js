@@ -56,6 +56,9 @@ class UserController{
     static async signIn(req, res, next){
 
         try {
+            console.log(req?.body)
+            console.log(req?.params)
+            console.log(req?.query)
             const { email, password } = req.body;
 
             const verifyCompos = await Verify.verificacionCamposRequeridos([email, password]);
@@ -80,6 +83,7 @@ class UserController{
     
             if(userData?.password === password){
                 var dataU = {
+                    id:userData?._id,
                     name: userData?.name,
                     lastName: userData?.lastName,
                     phoneNumber: userData?.phoneNumber,

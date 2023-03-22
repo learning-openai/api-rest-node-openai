@@ -4,13 +4,14 @@ const express  = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
+const cors = require('cors')
 
 const services = require('../src/routes/api/v0.1/services');
 const connection = require('../src/database/connectionDB')
 
 // whatsapp web
 // const clientWhatsapp = require('./routes/api/v0.1/whatsappWebNode/whatsappWebNode');
-
+app.use(cors());
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())

@@ -40,17 +40,19 @@ router.get('/qr-code', WhatsappWebClient.initWhatssapWeb)
 
 // User
 router.post('/user', UserController.signUp);
-router.get('/user/singin', UserController.signIn);
+router.post('/user/singin', UserController.signIn);
 router.put('/user/update', UserController.update)
 
 
 // services offered by the user
 router.post('/service',ServiceController.create);
+router.get('/service/idUser=:idUser', ServiceController.getListServces)
 
 
 // message embedding
 router.post('/messageembedding/create',MessageEmbedding.createMessageEmebedding)
-router.get('/messageembedding/list', MessageEmbedding.getListMsEmebeddings)
+router.post('/messageembedding/list', MessageEmbedding.getListMsEmebeddings);
+router.post('/messageembedding/update', MessageEmbedding.updateMsEmbedding)
 
 
 module.exports = router
