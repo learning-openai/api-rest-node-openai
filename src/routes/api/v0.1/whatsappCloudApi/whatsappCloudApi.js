@@ -101,7 +101,7 @@ class WhatsappCloudApi{
 
 
 
-  static async sentMessageWhatsappCloudApi(message ='Message text example', dataMessage){
+  static async sentMessageWhatsappCloudApi(texOnlineMessage ='Message text example', dataMessage){
 
         try {
 
@@ -122,7 +122,7 @@ class WhatsappCloudApi{
           }
 
         const whatsappNumberDestination = whatsappNumberClient;
-        const messageText = message;
+        const messageText = texOnlineMessage;
         const tokenAccess = CREDENTIAL?.tokenAccesWhatsappClousdApi
         const idPhoneNumber = CREDENTIAL?.idPhoneNumber;
 
