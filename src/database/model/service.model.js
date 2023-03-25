@@ -8,6 +8,9 @@ const  { Schema } = mongoose;
 const Service = new Schema({
     name:String,
     description:String,
+    phoneNumber:String,
+    areaCode:String,
+    slugPhoneNumber:String,
     userId:{
         ref:'user',
         type:Schema.Types.ObjectId
@@ -28,6 +31,15 @@ const Service = new Schema({
         type: Boolean,
         enum:[true, false],
         default:true
+    },
+    credentialsWhatsappApiCloud:[{
+        ref:'credentialWhatsappCloudApi',
+        type:Schema.Types.ObjectId
+    }],
+    typeService:{
+        type:String,
+        enum:['dental', 'venta', 'servicio' ],
+        default:'dental'
     },
     createdAt:{type:Date, default:Date.now},
     lastUpdate:{type:Date, default:Date.now}

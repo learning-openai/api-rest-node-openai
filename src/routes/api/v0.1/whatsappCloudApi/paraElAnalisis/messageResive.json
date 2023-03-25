@@ -1,0 +1,39 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "107732282263588",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15550477946",
+                            "phone_number_id": "113831158312438"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Gonzalo"
+                                },
+                                "wa_id": " "
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "from": "59169651053",
+                                "id": "wamid.HBgLNTkxNjk2NTEwNTMVAgASGCAwRURGRTlBN0I3OEM3OUY1NUNCREVDOTI3RTczNjVBNAA=",
+                                "timestamp": "1679699009",
+                                "text": {
+                                    "body": "Helo front cel"
+                                },
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}

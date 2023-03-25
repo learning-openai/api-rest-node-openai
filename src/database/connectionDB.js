@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 // const URL = "mongodb://localhost:27017/chatbotWhatsappDB";
-const URL = "mongodb+srv://gonis1990:bt7wnSTCpNzWKA5q@cluster0.yk5nv95.mongodb.net/?retryWrites=true&w=majority"
+const URL = process.env.DATABASE_URL;
 
 const connectionDB=async(number=1)=>{
     

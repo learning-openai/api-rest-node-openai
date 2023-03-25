@@ -67,6 +67,14 @@ class Embeddings{
         Utiliza solo los datos que sean necesarios para responder la pregunta. 
         Datos: servicio "${title}".  ${precio>0?"precio"+' ' +precio +' '+'Bs.':''}  descripcion "${description}". "${location!=''?'direccion'+' '+ location:''}".`;
 
+        // const prompt = `Hola, soy un asistente de la clínica dental ${clinicName}. 
+        // ¿En qué puedo ayudarte con respecto al servicio 
+        // ${title}? 
+        // ${description !== '' ? `Una breve descripción del servicio es: "${description}". ` : ''}
+        // ${precio > 0 ? `El precio del servicio es de ${precio} Bs. ` : ''}
+        // ${location !== '' ? `Estamos ubicados en ${location}. ` : ''}
+        // Por favor, dime en qué puedo ayudarte con respecto a este servicio.`;
+
         // if (precio && userQuestion.toLowerCase().includes('precio')) {
         //     prompt += ` El precio es ${precio} Bs.`;
         // }

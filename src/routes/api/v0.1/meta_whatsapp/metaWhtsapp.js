@@ -16,7 +16,8 @@ class MetaWhatsapp{
         console.log(req?.headers)
 
         console.log('----hub-challenge---')
-        const hudchallenge = req?.query['hub.challenge']
+        const hudchallenge = req?.query['hub.challenge'];
+        
         console.log(hudchallenge)
         // res.status(200).send(req.headers.authorization.split(' ')[1])
         // /metawhatsapp?hub.mode=subscribe&hub.challenge=1108383849&hub.verify_token=tokenVerifyapinode
@@ -88,9 +89,9 @@ class MetaWhatsapp{
 
 
 
-    static async sentMessageWatsappCloudApi(message ='Message text example', whatsappNumber='59169651053'){
+  static async sentMessageWatsappCloudApi(message ='Message text example', whatsappNumber='59169651053'){
 
-       try {
+        try {
         const whatsappNumberDestination = whatsappNumber;
         const messageText = message;
         const tokenAccess = process.env.ACCESS_TOKEN_META_WHATSAPP;
@@ -104,15 +105,15 @@ class MetaWhatsapp{
           const data = {
             messaging_product: 'whatsapp',
             to: whatsappNumberDestination,
+            type:'text',
             text: {
               body:messageText
-            },
-            type:'text'
+            }
             
           };
           
           // const response = await axios.post('https://graph.facebook.com/v15.0/108919802138779/messages', 
-          const response = await axios.post(`https://graph.facebook.com/v15.0/${idPhoneNumber}/messages`, 
+          const response = await axios.post(`https://graph.facebook.com/v16.0/${idPhoneNumber}/messages`, 
                                               data,
                                               {
                                                 headers: headers
@@ -122,31 +123,32 @@ class MetaWhatsapp{
           console.log(`se envio el mesnsaje a : ${whatsappNumberDestination}`)
           console.log(whatsappApiResponse)
 
-       } catch (e) {
+        } catch (e) {
         console.log('error send message whatsapp cloud api');
         console.log(e)
+        console.log(e?.response)
         // console.log(e.headers)
-       }
+        }
         
     }
 }
 
 
+// Functiona
 const DATA_PRODUCTS = require('../openai/embeddings/data');
 const Embeddings = require('../openai/embeddings/embedding')
 async function responseUserWhatsappApi(dataMessage){
-  const whatsappMessage = dataMessage.message
-  const respEmbedding = await Embeddings.seachEmbeddingData(whatsappMessage,DATA_PRODUCTS);
-  if(respEmbedding.length==0){
-    console.log('No hay coincidencia con la lista de embeddings')
-    return null;
-  }
-  const dataCompletation = await Embeddings.createCompletation(respEmbedding[0]);
-  console.log(dataCompletation[0].text)
-  const onlyText = dataCompletation[0].text
+    const whatsappMessage = dataMessage.message
+    const respEmbedding = await Embeddings.seachEmbeddingData(whatsappMessage,DATA_PRODUCTS);
+    if(respEmbedding.length==0){
+      console.log('No hay coincidencia con la lista de embeddings')
+      return null;
+    }
+    const dataCompletation = await Embeddings.createCompletation(respEmbedding[0]);
+    console.log(dataCompletation[0].text)
+    const onlyText = dataCompletation[0].text
 
-  MetaWhatsapp.sentMessageWatsappCloudApi(onlyText, dataMessage.whatsappNumberClient)
-
+    MetaWhatsapp.sentMessageWatsappCloudApi(onlyText, dataMessage.whatsappNumberClient)
 
 }
 

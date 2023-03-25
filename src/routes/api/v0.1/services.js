@@ -8,6 +8,8 @@ const WhatsappWebClient = require('./whatsappWebNode/index');
 const UserController = require('./businessLogic/user');
 const ServiceController = require('./businessLogic/service/service.controller');
 const MessageEmbedding = require('./businessLogic/messageEmbedding/messageEmbedding.controller');
+const CredentialWhatsappApiCloud = require('./businessLogic/credentialWhatappApiCloud/credentialWhatsappApiCloud.controller');
+const WhatsappCloudApi = require('./whatsappCloudApi/whatsappCloudApi');
 
 const router = express.Router();
 
@@ -30,6 +32,11 @@ router.get('/embedding/word=:word', IndexEmbedding.searchEmbedding,(req, res)=>{
 router.get('/metawhatsapp', MetaWhatsapp.verifyTokenMeta) // recibe un token desde facebook y responde a meta para el uso de whatsap could api
 router.post('/metawhatsapp', MetaWhatsapp.receiveMetaWhatsappData); // recibe los mensajes que llega a un numero de whatsa que esta configurado en meta/developer
 
+
+//(Actual) Whatsapp cloud api
+router.get('/whtsappcloudapi', WhatsappCloudApi.verifyTokenWhasappCloudApi);
+router.post('/whtsappcloudapi', WhatsappCloudApi.receiveMessageWhatsappCloudApi) 
+
 //  send messaje 
 // router.get('/sendmessage',IndexMetaWhatasapp.receiveMessageAndResponse)
 
@@ -46,7 +53,13 @@ router.put('/user/update', UserController.update)
 
 // services offered by the user
 router.post('/service',ServiceController.create);
-router.get('/service/idUser=:idUser', ServiceController.getListServces)
+router.get('/service/idUser=:idUser', ServiceController.getListServces);
+
+
+// Credential whatsapp api cloud
+router.post('/credentials/whatsappapicloud/', CredentialWhatsappApiCloud.newCreadential);
+router.post('/credentials/whatsappapicloud/update', CredentialWhatsappApiCloud.updateCredential);
+router.get('/credentials/serviceId=:serviceId', CredentialWhatsappApiCloud.getListCredentials)
 
 
 // message embedding

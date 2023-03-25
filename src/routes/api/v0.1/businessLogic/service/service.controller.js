@@ -9,9 +9,9 @@ class ServiceController{
     static async create(req, res, next){
 
         console.log('services')
-        const { name, description, userId }  = req.body;
+        const { name, description, userId, phoneNumber, areaCode }  = req.body;
 
-            const verifyCampos =  await Verify.verificacionCamposRequeridos([name, description, userId]);
+            const verifyCampos =  await Verify.verificacionCamposRequeridos([name, description, userId, phoneNumber, areaCode]);
             if(!verifyCampos){
                 var response = await ApiStantarResponse.jsonResponse(1, 'Error de validación: Complete los campos requeridos',[]);
                 return res.status(400).send(response);
@@ -20,12 +20,23 @@ class ServiceController{
             const listSevices = await  serviceModel.service.find({userId});
             console.log(listSevices);
 
-            if(listSevices.length >=3){
+            if(listSevices.length>=1){
                 console.log('-- ya tiene un servicio activo --')
                 console.log(listSevices)
                 var response = await ApiStantarResponse.jsonResponse(1,'El usuario ya tiene un servicio, por el momento solo se puede agragr un solo servicio', [...listSevices])
                return res.status(400).send(response)
             }
+
+            const phoneNuber =  `${areaCode}${phoneNumber}`
+            const veryNumberPhone =await serviceModel.service.find({slugPhoneNumber:phoneNuber})
+            if(veryNumberPhone.length>0){
+                console.log('-- el numero de whatsapp del servicio ya fue regitrado --')
+                console.log(listSevices)
+                var response = await ApiStantarResponse.jsonResponse(1,'Error de validacion, el numero de whatsapp del servicio ya fue registrado', [...veryNumberPhone])
+               return res.status(400).send(response)
+            }
+
+        
     
             var newService = new serviceModel.service({
                 name:name,
@@ -33,6 +44,9 @@ class ServiceController{
                 userId:userId,
                 messageEmbeddings:[],
                 answeredMessages:[],
+                phoneNumber:phoneNumber,
+                areaCode:areaCode,
+                slugPhoneNumber:`${areaCode}${phoneNumber}`,
             })
     
             var response = await newService.save();
