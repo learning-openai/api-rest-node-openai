@@ -37,7 +37,7 @@ class PromptsServices{
             default:
                 var prompt = `Imagina que eres una asistente de una clínica dental y debes generar una respuesta en base a la siguiente pregunta: "${userQuestion}". 
                 Utiliza solo los datos que sean necesarios para responder la pregunta. 
-                Datos: servicio "${title}".  ${precio>0?"precio"+' ' +precio +' '+'Bs.':''}  descripcion "${description}". "${location!=''?'direccion'+' '+ location:''}".`;
+                Datos: servicio "${title}".  ${precio>0?"precio aproximado"+' ' +precio +' '+'Bs.':''}  descripcion "${description}". "${location!=''?'direccion'+' '+ location:''}".`;
                 
                 return prompt
         }
