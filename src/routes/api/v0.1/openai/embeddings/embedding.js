@@ -6,6 +6,7 @@ const configuration = new Configuration({
 
 // importando de la liberia de mathjs
 const math = require('mathjs');
+const PromptsServices = require('./modelsPrompts/promptsServices');
 
 
 
@@ -55,6 +56,7 @@ class Embeddings{
     static async createCompletationService(objectMessagesServices){
         const {    
         title,
+        state,
         similarity,
         precio,
         userQuestion,
@@ -62,10 +64,29 @@ class Embeddings{
         urlResource,
         location } = objectMessagesServices
 
+        // var prompt = `Imagina que eres una asistente de una clínica dental y debes generar una respuesta en base a la siguiente pregunta: "${userQuestion}". 
+        // Utiliza solo los datos que sean necesarios para responder la pregunta. 
+        // Datos: servicio "${title}".  ${precio>0?"precio"+' ' +precio +' '+'Bs.':''}  descripcion "${description}". "${location!=''?'direccion'+' '+ location:''}".`;
+        console.log(':::::::::::::::::::::::::::::::::::::::::::::::::......lllllllllllllll');
+        console.log(objectMessagesServices);
+        var prompt;
+        if(state === true){
+            console.log('-------------- true');
+             prompt = await PromptsServices.switchPprompst('',objectMessagesServices);
+             console.log(prompt)
+        }
+        if(state === false){
+            console.log('-------------- false');
+            prompt = await PromptsServices.switchPprompst(state, objectMessagesServices);
+             console.log(prompt)
+        }
+        if(title === ''){
+            console.log('-------------- vacio ');
+            prompt = await PromptsServices.switchPprompst('justQuestion', objectMessagesServices);
+             console.log(prompt)
+        }
 
-        var prompt = `Imagina que eres una asistente de una clínica dental y debes generar una respuesta en base a la siguiente pregunta: "${userQuestion}". 
-        Utiliza solo los datos que sean necesarios para responder la pregunta. 
-        Datos: servicio "${title}".  ${precio>0?"precio"+' ' +precio +' '+'Bs.':''}  descripcion "${description}". "${location!=''?'direccion'+' '+ location:''}".`;
+        
 
         // const prompt = `Hola, soy un asistente de la clínica dental ${clinicName}. 
         // ¿En qué puedo ayudarte con respecto al servicio 
@@ -75,18 +96,6 @@ class Embeddings{
         // ${location !== '' ? `Estamos ubicados en ${location}. ` : ''}
         // Por favor, dime en qué puedo ayudarte con respecto a este servicio.`;
 
-        // if (precio && userQuestion.toLowerCase().includes('precio')) {
-        //     prompt += ` El precio es ${precio} Bs.`;
-        // }
-
-        // if (description && userQuestion.toLowerCase().includes('descripcion')) {
-        //     prompt += ` ${description}`;
-        // }
-
-        // if (location && (userQuestion.toLowerCase().includes('ubicacion') || userQuestion.toLowerCase().includes('localizacion'))) {
-        //     prompt += ` Estamos ubicados en ${location}.`;
-        // }
-
 
         const openai = new OpenAIApi(configuration);
         const response = await openai.createCompletion({
@@ -94,9 +103,14 @@ class Embeddings{
             prompt,
             max_tokens: 125,
             temperature: 0.1,
+            echo:false, 
+
+            // stop: "\n"
 
         })
 
+        // var onlyText = await response?.data?.choices[0]?.text?.replace(/^[^\n]*\n/, "")
+        // console.log(onlyText)
         console.log(response.data.choices)
         return response.data.choices
     }
@@ -116,10 +130,11 @@ class Embeddings{
             // let norm2 = math.norm(listEmbeddings[i].embedding) 
             // let similarity = dotProduct/(norm1*norm2)
             console.log(dotProduct)
-            if(dotProduct>0.80){
+            if(dotProduct>0.85){
                 console.log(listEmbeddings[i].name);
                 listSimilaties.push({
                     name:listEmbeddings[i].name,
+                    state:listEmbeddings[i].state,
                     similarity:dotProduct,
                     precio:listEmbeddings[i].precio,
                     marca:listEmbeddings[i].marca,
@@ -166,10 +181,11 @@ class Embeddings{
             // let norm2 = math.norm(listEmbeddings[i].embedding) 
             // let similarity = dotProduct/(norm1*norm2)
             console.log(dotProduct)
-            if(dotProduct>0.80){
+            if(dotProduct>0.85){
                 console.log(listEmbeddings[i]?.title);
                 listSimilaties.push({
                     title:listEmbeddings[i]?.title,
+                    state:listEmbeddings[i]?.state,
                     similarity:dotProduct,
                     precio:listEmbeddings[i]?.price,
                     userQuestion: messageClient,

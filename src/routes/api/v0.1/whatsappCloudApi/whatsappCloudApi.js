@@ -186,7 +186,7 @@ async function responseUserWhatsappApi(dataMessage){
 
     const serviceData = await service.findById({_id:credentials.serviceId});
     if(!serviceData){
-        console.log(` -- (Whatsapp-cloud-api) msg, el servicio perteneciente al whatsall : ${whatsappNumberOwnerService} no exite `);
+        console.log(` -- (Whatsapp-cloud-api) msg, el servicio perteneciente al whatsall : ${whatsappNumberOwnerService} no exite o no esta haabilitado `);
         return;
     }
 
@@ -199,7 +199,7 @@ async function responseUserWhatsappApi(dataMessage){
     const embeddingsData = await messageEmbedding.find({idService:serviceData._id});
     console.log(embeddingsData)
     if(embeddingsData.length===0){
-        console.log(`-- (whatsapp-cloud-api) msg, el servicio con id:${serviceData._id} no titne messages embeddings para responde al cliente `);
+        console.log(`-- (whatsapp-cloud-api) msg, el servicio con id:${serviceData._id} no titne messages embeddings para responder al cliente `);
         return;    
     }
     
@@ -208,14 +208,30 @@ async function responseUserWhatsappApi(dataMessage){
     const listOrderEmbeddings = await Embeddings.SearchEmbeddingServices(message ,embeddingsData);
     if(listOrderEmbeddings.length==0){
       console.log('-- (whatsapp-cloud-api) No hay coincidencia con la lista de embeddings, no tiene embeddings --')
+      let dataEmbeedingsEmty ={
+        title:'',
+        state:'',
+        similarity:0,
+        precio:0,
+        userQuestion: message,
+        description:'',
+        urlResource: '',
+        location: ''
+      }
+      let dataCompletationOonlyQuestion = await Embeddings.createCompletationService(dataEmbeedingsEmty);
+
+      console.log(dataEmbeedingsEmty?.userQuestion)
+      let onlyText =await dataCompletationOonlyQuestion[0].text.trim().replace(/\n/g, '').replace(/\r/g, '').replace(/\s\s+/g, ' ').replace(/^R:\s*/i, '').replace(/^Respuesta:\s*/i, '');
+      WhatsappCloudApi.sentMessageWhatsappCloudApi(onlyText, dataMessage)
       return null;
     }
 
     const dataCompletation = await Embeddings.createCompletationService(listOrderEmbeddings[0]);
     console.log(dataCompletation[0].text)
-    // const onlyText = dataCompletation[0].text
-    const onlyText = dataCompletation[0].text.trim().replace(/\n/g, '').replace(/\r/g, '').replace(/\s\s+/g, ' ').replace(/^R:\s*/i, '').replace(/^Respuesta:\s*/i, '');
-
+    const onlyTextLong = dataCompletation[0].text
+    console.log(onlyTextLong)
+    const onlyText =await dataCompletation[0].text.trim().replace(/^[^\n]*\n/, "").replace(/\r/g, '').replace(/\s\s+/g, ' ').replace(/^R:\s*/i, '').replace(/^Respuesta:\s*/i, '');
+    console.log(onlyText)
     // if(listOrderEmbeddings.length>0){
     //     const responseGenerateChatGPT = await Embeddings.createCompletationService(listOrderEmbeddings[0]);
     //     // texto = texto.replace(/(\n\s*\n\s*|\n\s*\+\s*\n\s*)/g, '');
