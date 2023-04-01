@@ -32,6 +32,7 @@ class Embeddings{
         } catch (error) {
             console.log(`Error class embedding.createEmbedding(): ${error}`);
             return ['error al genear el embedding']
+            
         }
     }
 
@@ -181,7 +182,7 @@ class Embeddings{
             // let norm2 = math.norm(listEmbeddings[i].embedding) 
             // let similarity = dotProduct/(norm1*norm2)
             console.log(dotProduct)
-            if(dotProduct>0.85){
+            if(dotProduct>0.80){
                 console.log(listEmbeddings[i]?.title);
                 listSimilaties.push({
                     title:listEmbeddings[i]?.title,
@@ -194,6 +195,9 @@ class Embeddings{
                     location: listEmbeddings[i]?.location,
                 })
             }
+
+            console.log('-----------search ------------------');
+            console.log(listEmbeddings);
 
             for(var j=0;j<listSimilaties.length;j++){
                 console.log('this a for')
