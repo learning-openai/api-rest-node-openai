@@ -1,10 +1,11 @@
-'use strcit'
+'use strict'
 const mongoose = require('mongoose');
 
 // para los mensajes de respuest
 const { Schema } = mongoose;
 
-const AnsweredMessages = new Schema({
+const ClientMessage = new Schema({
+    idService:String,
     idMsEmbedding:String,
     to:String,
     from:Number,
@@ -14,8 +15,8 @@ const AnsweredMessages = new Schema({
 })
 
 
-const answeredMessage = mongoose.model('answeredMessage', AnsweredMessages);
+const clientMessageModel = mongoose.model('clientMessage', ClientMessage);
 
 module.exports = {
-    answeredMessage
+    clientMessageModel
 }

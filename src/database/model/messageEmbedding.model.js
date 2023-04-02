@@ -19,9 +19,9 @@ const MessageEmbedding = new Schema({
         default:true
     },
     embeddingTitle:[],
-    answeredMessages:[
+    answerMessages:[
         {
-            ref:'answeredMessage',
+            ref:'answerMessage',
             type:Schema.Types.ObjectId
         }
     ],
