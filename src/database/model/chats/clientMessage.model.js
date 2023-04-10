@@ -5,18 +5,20 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ClientMessage = new Schema({
+    idChat : String,
     idService:String,
     idMsEmbedding:String,
-    to:String,
-    from:Number,
+    remitente:String,
+    destinatario:String,
     message:String,
+    timestamp:String,
     createdAt:{type:Date, default:Date.now},
     lastUpdate:{type:Date, default:Date.now}
 })
 
 
-const clientMessageModel = mongoose.model('clientMessage', ClientMessage);
+const ClientMessageModel = mongoose.model('clientMessage', ClientMessage);
 
 module.exports = {
-    clientMessageModel
+    ClientMessageModel
 }

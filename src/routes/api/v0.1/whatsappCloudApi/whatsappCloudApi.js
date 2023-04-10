@@ -11,6 +11,7 @@ const Embeddings = require('../openai/embeddings/embedding');
 const { credentialWhatsappCloudApi } = require('../../../../database/model/credentialWhatsappApiCloud.model');
 const { service } = require('../../../../database/model/service.model');
 const { messageEmbedding } = require('../../../../database/model/messageEmbedding.model');
+const { MessageChatLocalModel, Chat } = require('../businessLogic/chats/chat.controller');
 
 
 
@@ -121,16 +122,21 @@ class WhatsappCloudApi{
               return;
           }
 
-        const whatsappNumberDestination = whatsappNumberClient;
-        const messageText = texOnlineMessage;
-        const tokenAccess = CREDENTIAL?.tokenAccesWhatsappClousdApi
-        const idPhoneNumber = CREDENTIAL?.idPhoneNumber;
 
-        const headers = {
-            'Authorization': `Bearer ${tokenAccess}`,
-            'Content-Type': 'application/json'
-          };
-          
+          const whatsappNumberDestination = whatsappNumberClient;
+          const messageText = texOnlineMessage;
+          const tokenAccess = CREDENTIAL?.tokenAccesWhatsappClousdApi
+          const idPhoneNumber = CREDENTIAL?.idPhoneNumber;
+
+          // saved message client
+          var messageChatClient = new  MessageChatLocalModel(dataMessage?.idService,dataMessage?.idMessageEmbedding,dataMessage.message, dataMessage?.whatsappNumberClient, dataMessage?.whatsappNumberOwnerService,);
+          Chat.createClientMessage(messageChatClient);
+
+          const headers = {
+              'Authorization': `Bearer ${tokenAccess}`,
+              'Content-Type': 'application/json'
+            };
+            
           const data = {
             messaging_product: 'whatsapp',
             to: whatsappNumberDestination,
@@ -149,8 +155,16 @@ class WhatsappCloudApi{
                                               }
                                             );
           const whatsappApiResponse = response.data;
+          
+
+          // save message answer
+          var messageChatAnswer = new  MessageChatLocalModel(dataMessage?.idService,dataMessage?.idMessageEmbedding, messageText, dataMessage?.whatsappNumberOwnerService, dataMessage?.whatsappNumberClient);
+          Chat.createAnswerMessage(messageChatAnswer);
+
           console.log(`se envio el mesnsaje a : ${whatsappNumberDestination}`)
           console.log(whatsappApiResponse)
+          
+
 
         } catch (e) {
         console.log('error send message whatsapp cloud api');
@@ -221,7 +235,8 @@ async function responseUserWhatsappApi(dataMessage){
       let dataCompletationOonlyQuestion = await Embeddings.createCompletationService(dataEmbeedingsEmty);
 
       console.log(dataEmbeedingsEmty?.userQuestion)
-      let onlyText =await dataCompletationOonlyQuestion[0].text.trim().replace(/\n/g, '').replace(/\r/g, '').replace(/\s\s+/g, ' ').replace(/^R:\s*/i, '').replace(/^Respuesta:\s*/i, '');
+      let onlyText =await dataCompletationOonlyQuestion[0].text.trim().replace(/^[^\n]*\n/, "").replace(/\n/g, '').replace(/\r/g, '').replace(/\s\s+/g, ' ').replace(/^R:\s*/i, '').replace(/^Respuesta:\s*/i, '');
+      dataMessage.idService = serviceData?._id;
       WhatsappCloudApi.sentMessageWhatsappCloudApi(onlyText, dataMessage)
       return null;
     }
@@ -238,6 +253,11 @@ async function responseUserWhatsappApi(dataMessage){
     //     const textResponse = responseGenerateChatGPT[0].text.trim().replace(/\n/g, '').replace(/\r/g, '').replace(/\s\s+/g, ' ').replace(/^R:\s*/i, '').replace(/^Respuesta:\s*/i, '');
     //     client.sendMessage(phoneNumberCient, textResponse)
     // }
+    dataMessage.idService = serviceData?._id;
+    dataMessage.idMessageEmbedding = listOrderEmbeddings[0]?.idMessageEmbedding
+
+    // console.log('-------ddddddddddd------------')
+    // console.log(dataMessage)
 
     WhatsappCloudApi.sentMessageWhatsappCloudApi(onlyText, dataMessage)
 

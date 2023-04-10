@@ -13,6 +13,11 @@ const User = new Schema({
     phoneNumber:String,
     areaCode:String,
     slugPhoneNumber:String,
+    typeService:{
+        type: String,
+        enum: ['whatsappWeb','whatsappApiCloud','notAssigned'],
+        default: 'notAssigned'
+    },
     createdAt:{type:Date, default:Date.now},
     lastUpdate:{type:Date, default:Date.now}
 

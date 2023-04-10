@@ -185,6 +185,7 @@ class Embeddings{
             if(dotProduct>0.80){
                 console.log(listEmbeddings[i]?.title);
                 listSimilaties.push({
+                    idMessageEmbedding:listEmbeddings[i]?._id,
                     title:listEmbeddings[i]?.title,
                     state:listEmbeddings[i]?.state,
                     similarity:dotProduct,

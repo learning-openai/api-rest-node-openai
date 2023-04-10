@@ -27,9 +27,9 @@ class WhatsappWebClient{
 
                 // console.log(url)
                 if(counter==0){
-                    res.status(200).send(`<img src="${url}" />`);
-                    // let  response = await ApiStantarResponse.jsonResponse(0,'Codigo QR generado exitosamente',[url]);
-                    // res.status(200).send(response);
+                    // res.status(200).send(`<img src="${url}" />`);
+                    let  response = await ApiStantarResponse.jsonResponse(0,'Codigo QR generado exitosamente',[url]);
+                    res.status(200).send(response);
                 }
               });
 
@@ -39,6 +39,7 @@ class WhatsappWebClient{
 
         client.on('ready', () => {
             console.log('Client is ready!');
+            
         });
 
 
@@ -51,7 +52,7 @@ class WhatsappWebClient{
             // 59169651053@c.us
 
             const messageClient = message?.body;
-            const phoneNumberCient = message?.from;  // cliente
+            const phoneNumberCient = message?.from; // cliente
             const phoneNumberService = message?.to; // servicio o negocio.
 
             const verifyNumber = await phoneNumberCient.split('@')[0];

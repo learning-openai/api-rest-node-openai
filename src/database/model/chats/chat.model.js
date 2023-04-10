@@ -6,21 +6,24 @@ const { Schema } = mongoose;
 const Chat = new Schema({
     idService: String,
     idMessageEmbeeding:String,
-    clientMessages:[{
+    allMessages:[{
         ref:'clientMessage',
         type:Schema.Types.ObjectId
-    }],
-    answerMessages:[{
+    },{
         ref:'answerMessage',
         type:Schema.Types.ObjectId
-    }]
+    }],
+
+    createdAt:{type:Date, default:Date.now},
+    lastUpdate:{type:Date, default:Date.now}
+
 })
 
 
 
-const chatModel = mongoose.model('chat', Chat);
+const ModelChat = mongoose.model('chat', Chat);
 
 
 module.exports = {
-    chatModel
+    ModelChat
 }

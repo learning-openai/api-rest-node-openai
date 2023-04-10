@@ -89,7 +89,8 @@ class UserController{
                     phoneNumber: userData?.phoneNumber,
                     slugPhoneNumber:userData.slugPhoneNumber,
                     areaCode: userData?.areaCode,
-                    email: userData?.email
+                    email: userData?.email,
+                    typeService:userData?.typeService
                 }
     
                 var response = await ApiStantarResponse.jsonResponse(0, 'succesfull, inicio de session', [dataU]);
@@ -131,6 +132,7 @@ class UserController{
             age:req.body?.age!='' && req.body.age!=undefined? req.body?.age:user.age,
             phoneNumber:req.body?.phoneNumber!='' && req.body.phoneNumber!=undefined? req.body?.phoneNumber:user.phoneNumber,
             areaCode:req.body?.areaCode!='' && req.body.areaCode!=undefined? req.body?.areaCode:user.areaCode,
+            typeService: req.body?.typeService!='' && req.body.typeService!=undefined? req.body?.typeService:user?.typeService,
             slugPhoneNumber:`${req.body?.areaCode!='' && req.body.areaCode!=undefined? req.body?.areaCode:user.areaCode}${req.body?.phoneNumber!='' && req.body.phoneNumber!=undefined? req.body?.phoneNumber:user.phoneNumber}`,
             lastUpdate:Date.now()
         }
